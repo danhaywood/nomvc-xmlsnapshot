@@ -1,0 +1,15 @@
+@* To use Razor views, see Naked Objects Manual (search for 'Razor') *@
+
+@model FindViewModel
+@{
+    
+    Layout = "Site.WithServices.cshtml";
+}
+
+    @Html.History()   
+    <div class="@IdHelper.ActionDialogName" id="@Html.ObjectActionDialogId(Model.ContextObject, Model.ContextAction)" >
+         @Html.Partial("DialogControl")
+    </div>
+   
+
+@section title {Model.ContextAction.Name}

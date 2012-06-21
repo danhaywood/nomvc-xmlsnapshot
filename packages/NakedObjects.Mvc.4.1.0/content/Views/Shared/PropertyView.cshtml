@@ -1,0 +1,5 @@
+@* To use Razor views, see Naked Objects Manual (search for 'Razor') *@
+
+@model PropertyViewModel
+
+@Html.PropertyListWith(Model.ContextObject, Model.PropertyName)

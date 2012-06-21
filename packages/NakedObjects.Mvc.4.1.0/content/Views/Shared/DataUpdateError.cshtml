@@ -1,0 +1,14 @@
+﻿@* To use Razor views, see Naked Objects Manual (search for 'Razor') *@
+
+@model DataUpdateException
+@{
+    
+    Layout = "Site.WithServices.cshtml";
+}
+@section title {@MvcUi.DataUpdateErrorTitle}
+@Html.History()
+<div class="error">
+    <img alt="error" src="/Content/system-error.png" />
+	<h2>@MvcUi.DataUpdateErrorTitle</h2>
+	<p>@Model.Message</p>
+</div>

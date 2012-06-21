@@ -1,0 +1,12 @@
+﻿@* To use Razor views, see Naked Objects Manual (search for 'Razor') *@
+
+@{
+    
+    Layout = "Site.WithServices.cshtml";
+}
+@section title {@MvcUi.DestroyedErrorTitle}
+@Html.History()
+<div class="error">
+    <img alt="error" src="/Content/system-error.png" />
+	<h2>@MvcUi.DestroyedErrorText</h2>
+</div>

@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Claims.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ClaimsStoreContainer">
+    <EntitySet Name="Claims" EntityType="Claims.Store.Claims" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RecordedActionForClaims" EntityType="Claims.Store.RecordedActionForClaims" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Allowances" EntityType="Claims.Store.Allowances" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="RecordedActionForClaim_Claim" Association="Claims.Store.RecordedActionForClaim_Claim">
+      <End Role="RecordedActionForClaim" EntitySet="RecordedActionForClaims" />
+      <End Role="Claim" EntitySet="Claims" />
+    </AssociationSet>
+    <AssociationSet Name="ClaimAllowance" Association="Claims.Store.ClaimAllowance">
+      <End Role="Claim" EntitySet="Claims" />
+      <End Role="Allowance" EntitySet="Allowances" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Claims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RecordedActionForClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Summary" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Rationale" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="User" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="XmlSnapshot" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Claim_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Allowances">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ClaimId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="RecordedActionForClaim_Claim">
+    <End Role="RecordedActionForClaim" Type="Claims.Store.RecordedActionForClaims" Multiplicity="*" />
+    <End Role="Claim" Type="Claims.Store.Claims" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Claim">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RecordedActionForClaim">
+        <PropertyRef Name="Claim_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ClaimAllowance">
+    <End Role="Claim" Type="Claims.Store.Claims" Multiplicity="1" />
+    <End Role="Allowance" Type="Claims.Store.Allowances" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Claim">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Allowance">
+        <PropertyRef Name="ClaimId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Claims" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="ClaimsContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Claims" EntityType="Claims.Claim" />
+          <EntitySet Name="RecordedActionForClaims" EntityType="Claims.RecordedActionForClaim" />
+          <AssociationSet Name="RecordedActionForClaim_Claim" Association="Claims.RecordedActionForClaim_Claim">
+            <End Role="RecordedActionForClaim" EntitySet="RecordedActionForClaims" />
+            <End Role="Claim" EntitySet="Claims" />
+          </AssociationSet>
+          <EntitySet Name="Allowances" EntityType="Claims.Allowance" />
+          <AssociationSet Name="ClaimAllowance" Association="Claims.ClaimAllowance">
+            <End Role="Claim" EntitySet="Claims" />
+            <End Role="Allowance" EntitySet="Allowances" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Claim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" />
+          <NavigationProperty Name="Allowances" Relationship="Claims.ClaimAllowance" FromRole="Claim" ToRole="Allowance" />
+        </EntityType>
+        <EntityType Name="RecordedActionForClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Claim" Relationship="Claims.RecordedActionForClaim_Claim" FromRole="RecordedActionForClaim" ToRole="Claim" />
+          <Property Type="String" Name="Summary" Nullable="false" />
+          <Property Type="String" Name="Rationale" Nullable="false" />
+          <Property Type="String" Name="User" Nullable="false" />
+          <Property Type="String" Name="XmlSnapshot" Nullable="false" />
+        </EntityType>
+        <Association Name="RecordedActionForClaim_Claim">
+          <End Type="Claims.RecordedActionForClaim" Role="RecordedActionForClaim" Multiplicity="*" />
+          <End Type="Claims.Claim" Role="Claim" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Allowance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="Claim" Relationship="Claims.ClaimAllowance" FromRole="Allowance" ToRole="Claim" />
+          <Property Type="Int32" Name="ClaimId" Nullable="false" />
+        </EntityType>
+        <Association Name="ClaimAllowance">
+          <End Type="Claims.Claim" Role="Claim" Multiplicity="1" />
+          <End Type="Claims.Allowance" Role="Allowance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Claim">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Allowance">
+              <PropertyRef Name="ClaimId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ClaimsStoreContainer" CdmEntityContainer="ClaimsContainer">
+    <EntitySetMapping Name="Claims">
+      <EntityTypeMapping TypeName="IsTypeOf(Claims.Claim)">
+        <MappingFragment StoreEntitySet="Claims">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RecordedActionForClaims">
+      <EntityTypeMapping TypeName="IsTypeOf(Claims.RecordedActionForClaim)">
+        <MappingFragment StoreEntitySet="RecordedActionForClaims">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Summary" ColumnName="Summary" />
+          <ScalarProperty Name="Rationale" ColumnName="Rationale" />
+          <ScalarProperty Name="User" ColumnName="User" />
+          <ScalarProperty Name="XmlSnapshot" ColumnName="XmlSnapshot" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Allowances">
+      <EntityTypeMapping TypeName="IsTypeOf(Claims.Allowance)">
+        <MappingFragment StoreEntitySet="Allowances">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ClaimId" ColumnName="ClaimId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="RecordedActionForClaim_Claim" TypeName="Claims.RecordedActionForClaim_Claim" StoreEntitySet="RecordedActionForClaims">
+      <EndProperty Name="Claim">
+        <ScalarProperty Name="Id" ColumnName="Claim_Id" />
+      </EndProperty>
+      <EndProperty Name="RecordedActionForClaim">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="DatabaseGenerationWorkflow" Value="$(VSEFTools)\DBGen\TablePerTypeStrategy.xaml" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="Employers" >
+        <EntityTypeShape EntityType="Claims.Claim" Width="1.5" PointX="2.75" PointY="0.875" Height="1.59568359375" />
+        <EntityTypeShape EntityType="Claims.RecordedActionForClaim" Width="2.25" PointX="6.125" PointY="1.375" Height="1.59568359375" />
+        <AssociationConnector Association="Claims.RecordedActionForClaim_Claim">
+          <ConnectorPoint PointX="6.125" PointY="1.922841796875" />
+          <ConnectorPoint PointX="4.25" PointY="1.922841796875" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="Claims.Allowance" Width="1.5" PointX="2.75" PointY="3.25" Height="1.4033821614583326" />
+        <AssociationConnector Association="Claims.ClaimAllowance">
+          <ConnectorPoint PointX="3.5" PointY="2.662985026041667" />
+          <ConnectorPoint PointX="3.5" PointY="3.25" />
+        </AssociationConnector>
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,62 @@
+﻿<%@ Import Namespace="NakedObjects.Web.Mvc.Html" %>
+
+<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+ 
+    <link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/smoothness/jquery-ui.css" rel="Stylesheet" />
+  
+    <title>
+        <asp:ContentPlaceHolder ID="TitleContent" runat="server" />
+    </title>
+    <!-- Switch to NakedObjects.min.css before release -->
+    <link href="../../Content/NakedObjects.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="../../Content/nakedobjects.ico" />
+</head>
+<body>
+    <div class="page">
+        <div id="header">
+            <% if (!Html.ViewContext.HttpContext.Request.IsAjaxRequest()) {%>    
+                <div id="title">
+                    <h1>Naked Objects MVC</h1>
+                </div>
+                <%:Html.ActionLink("Home", "Index", "System")%>
+                <% Html.RenderPartial("LogOnUserControl"); %>
+                <%:Html.Services()%>
+            <% } %>
+        </div>
+        <div id="main">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+    </div>
+
+    <!-- Use '.min' versions of NakedObjects-*.js before release -->
+    <!-- NOTE: If your users do not have live internet access then replace all Content Delivery Network (aspnetcdn)
+     references with references to local copies of the same scripts  -->
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.6.min.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery.ui/1.8.14/jQuery-ui.min.js"></script>
+
+    <!-- NakedObjects-Basic Start  
+    <script type="text/javascript" src="<%= Url.Content("~/Scripts/NakedObjects-Basic.js") %>"></script>
+    NakedObjects-Basic End -->
+
+    <!-- If you prefer not to use Ajax un-comment NakedObjects-Basic region above and comment out the code within the
+     NakedObjects-Ajax region below.-->  
+   
+    <!-- NakedObjects-Ajax Start -->
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery.Validate/1.8.1/jQuery.Validate.min.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/mvc/3.0/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="<%= Url.Content("~/Scripts/jquery.address-1.4.min.js") %>"></script>
+    <script type="text/javascript" src="<%= Url.Content("~/Scripts/jquery.json-2.2.min.js") %>"></script>
+    <script type="text/javascript" src="<%= Url.Content("~/Scripts/jstorage.min.js") %>"></script>
+    <script type="text/javascript" src="<%= Url.Content("~/Scripts/NakedObjects-Ajax.js") %>"></script>
+    <!-- NakedObjects-Ajax End -->
+  
+    <!--DATE FORMATS:   The following line specifies that the JQuery DatePicker uses the en-GB date format (dd/mm/yy).
+    To use the US format (mm/dd/yy) just comment out this line. Or to use another locale, specify the appropriate
+    version of jquery.ui.datepicker: -->
+    <script type="text/javascript" src="<%= Url.Content("~/Scripts/ui/i18n/jquery.ui.datepicker-en-GB.min.js")%>"></script>
+</body>
+</html>

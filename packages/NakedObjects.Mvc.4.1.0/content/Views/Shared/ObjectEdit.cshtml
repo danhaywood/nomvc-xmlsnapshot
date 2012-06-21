@@ -1,0 +1,15 @@
+@* To use Razor views, see Naked Objects Manual (search for 'Razor') *@
+
+@model object
+@{
+    
+    Layout = "Site.WithServices.cshtml";
+}
+
+@section title {@Html.ObjectTitle(Model)}
+
+    @Html.History(Model)
+	   <div class="@(IdHelper.ObjectEditName + "" + Html.TransientFlag(Model is FindViewModel ? ((FindViewModel) Model).TargetObject : Model))" id="@Html.ObjectTypeAsCssId(Model)">
+        @Html.Partial("ObjectEditControl", Model)          
+     </div>
+

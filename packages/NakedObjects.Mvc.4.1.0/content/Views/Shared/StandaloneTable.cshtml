@@ -1,0 +1,17 @@
+@* To use Razor views, see Naked Objects Manual (search for 'Razor') *@
+
+@model System.Collections.IEnumerable
+@{
+    
+    Layout = "Site.WithServices.cshtml";
+}
+
+@section title {@Html.ObjectTitle(Model)}
+
+
+    @Html.History()
+    <div class="@IdHelper.StandaloneTableName" id="@Html.ObjectTypeAsCssId(Model)">
+        @Html.Object(Model)
+        @Html.UserMessages()
+        @Html.CollectionTable(Model)
+    </div>
